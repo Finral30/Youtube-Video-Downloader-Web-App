@@ -1,0 +1,8 @@
+# Nixpacks build config for Railway
+# Installs FFmpeg as a system package alongside Python deps
+
+[phases.setup]
+nixPkgs = ["ffmpeg"]
+
+[start]
+cmd = "uvicorn main:app --host 0.0.0.0 --port $PORT"

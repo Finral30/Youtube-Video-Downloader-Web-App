@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global CSS Variables ─────────────────────────────────── */
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #111620;
+  --bg-card: rgba(22, 27, 39, 0.8);
+  --border: rgba(255,255,255,0.07);
+  --text-primary: #f0f4ff;
+  --text-secondary: #8b9eb5;
+  --text-muted: #4e5e72;
+  --brand: #1a56ff;
+  --brand-glow: rgba(26,86,255,0.25);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255,255,255,0.9);
+  --border: rgba(0,0,0,0.08);
+  --text-primary: #0d1117;
+  --text-secondary: #4a5568;
+  --text-muted: #a0aec0;
+}
+
+[data-theme="amoled"] {
+  --bg-primary: #000000;
+  --bg-secondary: #050505;
+  --bg-card: rgba(10,10,10,0.95);
+  --border: rgba(255,255,255,0.04);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Glass Card ───────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* ── Brand Gradient Text ─────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Shimmer skeleton ────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Progress bar glow ───────────────────────────────────── */
+.progress-glow {
+  box-shadow: 0 0 10px var(--brand-glow), 0 0 20px var(--brand-glow);
+}
+
+/* ── Focus ring ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Transitions ─────────────────────────────────────────── */
+.transition-base {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── No-scrollbar ────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

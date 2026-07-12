@@ -1,0 +1,58 @@
+# ── Python / Backend ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+ffmpeg.exe
+*.exe
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Runtime artifacts
+web-backend/temp/
+web-backend/ytdl.db
+web-backend/*.db
+web-backend/*.db-shm
+web-backend/*.db-wal
+web-backend/settings.json
+
+# Env files (never commit secrets)
+.env
+web-backend/.env
+web-frontend/.env
+web-frontend/.env.local
+web-frontend/.env.production
+
+# ── Node / Frontend ───────────────────────────────────────────────────────────
+node_modules/
+web-frontend/node_modules/
+web-frontend/dist/
+web-frontend/.vite/
+
+# ── OS / Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# ── Cookies (never commit!) ───────────────────────────────────────────────────
+cookies.txt
+*.cookies
+
+# ── Build artefacts ───────────────────────────────────────────────────────────
+*.log
+*.part
