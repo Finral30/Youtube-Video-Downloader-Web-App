@@ -122,6 +122,12 @@ app.include_router(queue.router)
 app.include_router(history.router)
 app.include_router(settings_router.router)
 
+from core.config import settings
+
+print("=" * 60)
+print(settings.cors_origins)
+print("=" * 60)
+
 
 @app.get("/api/health")
 async def health():
