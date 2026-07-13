@@ -1,9 +1,17 @@
+# Railway deployment config
+# ─────────────────────────
+# Railway reads this from the root of your service directory.
+# Set "Root Directory" to "web-backend" in the Railway dashboard.
+
 [build]
-builder = "nixpacks"
+builder = "nixpacks"   # uses nixpacks.toml for FFmpeg + Python setup
 
 [deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
-healthcheckPath = "/api/health"
+# Must match nixpacks.toml [start] cmd.
+# --workers 1          REQUIRED (in-memory queue state — see nixpacks.toml)
+# --timeout-keep-alive 75  keeps SSE streams alive past Railway's 60s proxy
+startCommand    = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 75 --log-level info"
+healthcheckPath    = "/api/health"
 healthcheckTimeout = 30
-restartPolicyType = "on_failure"
+restartPolicyType  = "on_failure"
 restartPolicyMaxRetries = 3

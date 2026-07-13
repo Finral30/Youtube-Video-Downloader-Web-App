@@ -1,8 +1,25 @@
 # Nixpacks build config for Railway
-# Installs FFmpeg as a system package alongside Python deps
+# ─────────────────────────────────
+# Railway reads this file automatically when builder = "nixpacks".
+#
+# [phases.setup]
+#   nixPkgs — Nix packages installed before Python deps.
+#   ffmpeg is required for:
+#     • Merging adaptive video+audio streams (1080p / 1440p / 4K)
+#     • Converting audio streams to MP3
+#
+# [start]
+#   --workers 1          REQUIRED — queue_manager, pause/resume state,
+#                        and SSE connections live in-memory. Multiple
+#                        workers (multiprocessing) would give each worker
+#                        its own isolated copy, breaking these features.
+#   --timeout-keep-alive 75
+#                        SSE progress streams are long-lived connections.
+#                        Raise above Railway's 60s proxy timeout so
+#                        progress updates are not cut off mid-download.
 
 [phases.setup]
 nixPkgs = ["ffmpeg"]
 
 [start]
-cmd = "uvicorn main:app --host 0.0.0.0 --port $PORT"
+cmd = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 75 --log-level info"
