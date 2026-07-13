@@ -126,6 +126,19 @@ class QueueManager:
             for tid in done_ids:
                 self._tasks.pop(tid, None)
 
+    def get_active_task_ids(self) -> set[str]:
+        """
+        Return the set of task IDs that are NOT yet in a terminal state.
+        Used by the cleanup scheduler to protect folders that still belong
+        to in-progress or paused downloads.
+        """
+        with self._lock:
+            return {
+                tid
+                for tid, t in self._tasks.items()
+                if not t.is_done
+            }
+
 
 # Global singleton
 queue_manager = QueueManager(max_workers=3)

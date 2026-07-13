@@ -22,6 +22,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import FileResponse
 from sse_starlette.sse import EventSourceResponse
 
+from core.config import settings
 from core.models import (
     DownloadFormat,
     DownloadProgress,
@@ -32,6 +33,7 @@ from core.models import (
 from services.queue_manager import queue_manager
 from core.database import get_db
 from services.history_service import add_history
+from utils.cleanup import cleanup_download
 
 router = APIRouter(prefix="/api/download", tags=["download"])
 
@@ -129,8 +131,12 @@ async def progress_stream(task_id: str):
 # ------------------------------------------------------------------
 
 @router.get("/{task_id}/file")
-async def serve_file(task_id: str):
-    """Serve the completed download file to the browser."""
+async def serve_file(task_id: str, background_tasks: BackgroundTasks):
+    """Serve the completed download file to the browser.
+
+    A BackgroundTask is registered to delete temp/<task_id>/ only AFTER
+    the file has been completely streamed to the client.
+    """
     task = queue_manager.get_task(task_id)
     if not task:
         raise HTTPException(404, "Task not found")
@@ -142,6 +148,11 @@ async def serve_file(task_id: str):
         raise HTTPException(404, "File not found on server")
 
     filename = Path(file_path).name
+
+    # Schedule disk cleanup to run after FileResponse finishes streaming.
+    # BackgroundTasks guarantees execution only after the full response is sent.
+    background_tasks.add_task(cleanup_download, task_id, settings.temp_dir)
+
     return FileResponse(
         path=file_path,
         filename=filename,

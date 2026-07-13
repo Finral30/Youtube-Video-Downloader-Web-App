@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+
+# Virtual environment — never copy into image; Docker installs its own
+.venv/
+venv/
+env/
+
+# Local runtime artifacts — these are created fresh in the container
+temp/
+data/
+*.db
+*.db-shm
+*.db-wal
+settings.json
+
+# Secrets — never bake into image
+.env
+cookies.txt
+*.cookies
+
+# Dev / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Docker itself
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Deployment configs (not needed inside the container)
+railway.toml
+nixpacks.toml
+Procfile
